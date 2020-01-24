@@ -63,6 +63,12 @@ func Generate(startPath string, environments []string, validate bool) (component
 
 	results := core.WalkComponentTree(startPath, environments, func(path string, component *core.Component) (err error) {
 
+		fmt.Printf("xxx %+v\n", component.Config)
+		if component.Config.Excluded {
+			logger.Info(emoji.Sprintf(":thumbs_down: Exclude component"))
+			return nil
+		}
+
 		var generator core.Generator
 		switch component.ComponentType {
 		case "helm":
